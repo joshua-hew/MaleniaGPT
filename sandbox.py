@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.DEBUG,  # Log everything at DEBUG level and ab
 
 # Define API keys and voice ID
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY", "c76d206e37d3da6d5f7f2b0652c442d8")
+ELEVENLABS_API_KEY = os.environ.get("ELEVENLABS_API_KEY", "")
 VOICE_ID = 'HxxnFvSdN4AyRUpj6yh7'
 
 # Set OpenAI API key
