@@ -8,15 +8,26 @@ import subprocess
 import logging
 from openai import AsyncOpenAI
 
+import logging
+
 # Setup file logging
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)  # Log everything at DEBUG level and above
 
 # Setup logging to file for detailed debug information
-logging.basicConfig(level=logging.DEBUG,  # Log everything at DEBUG level and above
-                    filename='debug_log.log',  # Log messages are written to this file
-                    filemode='w',  # Write to the log file
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+file_handler_debug = logging.FileHandler('debug_log.log', mode='w')
+file_handler_debug.setLevel(logging.DEBUG)
+file_handler_debug.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+
+# Setup logging to file for info messages
+file_handler_info = logging.FileHandler('info_log.log', mode='w')
+file_handler_info.setLevel(logging.INFO)
+file_handler_info.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+
+# Add handlers to the logger
+logger.addHandler(file_handler_debug)
+logger.addHandler(file_handler_info)
+
 
 # Define API keys and voice ID
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
@@ -37,6 +48,7 @@ async def text_chunker(input_queue, output_queue):
     while True:
         text = await input_queue.get()
         if text is None:  # End of input
+            logger.info("Text chuncker reached end of text queue")
             if buffer:
                 await output_queue.put(buffer + " ")
             await output_queue.put(None)  # Signal completion
@@ -58,18 +70,20 @@ async def send_text(websocket, chunked_text_queue):
     while True:
         chunked_text = await chunked_text_queue.get()
         if chunked_text is None:  # End of chunked text
+            # Signal the end of the text stream
+            logger.info("Send text reached end of chunked text queue. Sending EOS signal")
+            await websocket.send(json.dumps({"text": ""}))
             break
         text_message = {"text": chunked_text, "try_trigger_generation": True}
         logging.debug(f"Sending text to ElevenLabs for TTS: {text_message}")
         await websocket.send(json.dumps(text_message))
-    # Signal the end of the text stream
-    await websocket.send(json.dumps({"text": ""}))
-
-
+    
 
 
 async def listen(websocket, audio_queue):
     """Listen to the websocket for audio data and stream it."""
+    received_chars = []  # List to accumulate received characters
+
     while True:
         try:
             message = await websocket.recv()
@@ -78,7 +92,10 @@ async def listen(websocket, audio_queue):
                 audio_data = base64.b64decode(data["audio"])
                 logging.debug(f"Decoded audio chunk size: {len(audio_data)}")
                 await audio_queue.put(audio_data)  # Place audio data into the queue
-            elif data.get('isFinal'):
+            if "normalizedAlignment" in data and data["normalizedAlignment"] is not None and "chars" in data["normalizedAlignment"]:
+                received_chars.extend(data["normalizedAlignment"]["chars"])  # Accumulate received characters
+            if data.get('isFinal'):
+                logger.info("Received final audio response")
                 await audio_queue.put(None)  # Signal the end of the stream
                 break
         except websockets.exceptions.ConnectionClosed as e:
@@ -86,7 +103,11 @@ async def listen(websocket, audio_queue):
             break
         except Exception as e:
             logging.error(f"An unexpected error occurred: {e}.")
+            logging.error(message)
             break
+
+    # logging.info(f"Received characters from ElevenLabs {len(received_chars)}: {''.join(received_chars)}")  # Log the accumulated characters for troubleshooting
+    logging.info(f"Boop {len(received_chars)}: {received_chars}")  # Log the accumulated characters for troubleshooting
 
 async def stream(audio_queue):
     if not is_installed("mpv"):
@@ -102,7 +123,7 @@ async def stream(audio_queue):
     while True:
         chunk = await audio_queue.get()
         if chunk is None:  # Check for the signal to end streaming
-            logging.debug("stopped streaming audio")
+            logging.info("Stream reached end of audio queue. Stopped streaming audio")
             break
         logging.debug(f"Streaming audio chunk of size: {len(chunk)}")
         mpv_process.stdin.write(chunk)
@@ -136,32 +157,41 @@ async def text_to_speech_input_streaming(voice_id, text_queue):
         )
 
 
-async def chat_completion(query, queue):
+async def chat_completion(query, text_queue):
     logging.info(f"Sending query to OpenAI: {query}")
     response = await aclient.chat.completions.create(model='gpt-4', messages=[{'role': 'user', 'content': query}],
                                                      temperature=1, stream=True)
+
+    char_array = []
 
     async for chunk in response:
         delta = chunk.choices[0].delta
         if delta.content is not None:
             print(delta.content, end='', flush=True)
             logging.debug(f"Received content from OpenAI: {delta.content}")
-            await queue.put(delta.content)  # Place the content into the queue
+            await text_queue.put(delta.content)  # Place the content into the queue
+
+            # Keep track of every char received
+            for char in delta.content:
+                char_array.append(char)
         else:
-            logging.warning("Received None from OpenAI response")
-    await queue.put(None)  # Sentinel value to indicate no more items will be added
+            logging.info("Received end of OpenAI response")
+            await text_queue.put(None)  # Sentinel value to indicate no more items will be added
+    
+    # logging.info(f"Received characters from OpenAI {len(char_array)}: {''.join(char_array)}")  # Log the accumulated characters for troubleshooting
+    logging.info(f"beep {len(char_array)}: {char_array}")  # Log the accumulated characters for troubleshooting
 
 async def main():
     logging.debug("Program started")
     user_query = "Hello, tell me a very short story."
-    # user_query = "Hi Malenia, can you tell me the story of Darth Plagueis the Wise."
-    # user_query = "Hi Malenia, can you tell me a story that is exactly 500 words long?"
-    # user_query = "Hi Malenia, can you explain how async and yields work in python?"
+    # user_query = "Hello, can you tell me the story of Darth Plagueis the Wise."
+    # user_query = "Hello, can you tell me a story that is exactly 500 words long?"
+    # user_query = "Hello, can you explain how async and yields work in python?"
 
-    queue = asyncio.Queue()
+    text_queue = asyncio.Queue()
     await asyncio.gather(
-        chat_completion(user_query, queue),
-        text_to_speech_input_streaming(VOICE_ID, queue)
+        chat_completion(user_query, text_queue),
+        text_to_speech_input_streaming(VOICE_ID, text_queue)
     )
 
 

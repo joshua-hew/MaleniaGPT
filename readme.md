@@ -8,3 +8,6 @@ brew install mpv
 
 # Bugs
 1. For longer stories, the voice response ends prematurely
+
+00:28:20,665
+00:30:31,659
