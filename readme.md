@@ -8,6 +8,5 @@ brew install mpv
 
 # Bugs
 1. For longer stories, the voice response ends prematurely
-
-00:28:20,665
-00:30:31,659
+  - Fix bug where "..." is being broken up by the chunker
+  - Refactor code using classes, to make shared variable reference easier.

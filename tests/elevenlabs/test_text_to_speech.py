@@ -37,7 +37,7 @@ async def text_chunker(input_queue, output_queue):
         else:
             buffer += text
             
-        print(repr(buffer))
+        # print(repr(buffer))
         # print(buffer)
 
 async def send_text(websocket, chunked_text_queue):
@@ -58,8 +58,7 @@ async def listen(websocket, responses):
     while True:
         message = await websocket.recv()
         data = json.loads(message)
-        audio_omitted_data = {key: val for key, val in data.items() if key != "audio"}
-        responses.append(audio_omitted_data)
+        responses.append(data)
 
         # Handle audio...
 
@@ -81,12 +80,13 @@ async def text_to_speech_streaming(text_queue):
         await websocket.send(json.dumps(init_message))
 
         # Start the text_chunker, send_text, listen, and stream concurrently
-        results = await asyncio.gather(
+        await asyncio.gather(
             text_chunker(text_queue, chunked_text_queue),
             send_text(websocket, chunked_text_queue),
             listen(websocket, responses)
         )
 
+        return responses
         # print(json.dumps(responses))
 
 
@@ -95,16 +95,51 @@ async def text_to_speech_streaming(text_queue):
 
 async def test_repeating_special_characters():
     
-    # Test 1
-    with open('../openai/output_01.json', 'r') as f:
-        text_array = json.load(f)
+    with open('../openai/test_data.json', 'r') as f:
+        tests = json.load(f)
     
-    text_queue = asyncio.Queue() 
-    for content in text_array:
-        await text_queue.put(content)
-    await text_queue.put(None)
+    for test in tests:
+        if 'elevenlabs_output' not in test:
+            print(f"Running test {test['test_num']}")
 
-    await text_to_speech_streaming(text_queue)
+            # Create text queue used for input
+            text_queue = asyncio.Queue() 
+            for text in test['openai_output']:
+                await text_queue.put(text)
+            await text_queue.put(None)
+            
+            # Start text-to-speech process
+            responses = await text_to_speech_streaming(text_queue)
+
+            # Modify
+            for response in responses:
+                response.pop("audio", None)
+                if response["normalizedAlignment"]:
+                    response["normalizedAlignment"].pop("charStartTimesMs", None)
+                    response["normalizedAlignment"].pop("charDurationsMs", None)
+                if response["alignment"]:
+                    response["alignment"].pop("charStartTimesMs", None)
+                    response["alignment"].pop("charDurationsMs", None)
+
+            test["elevenlabs_output"] = responses
+        else:
+            print(f"Skipping test {test['test_num']}")
+
+    with open('test_data.json', 'w') as f:
+        json.dump(tests, f, indent=2)
+    
+    
+    
+    # # Test 1
+    # with open('../openai/output_01.json', 'r') as f:
+    #     text_array = json.load(f)
+    
+    # text_queue = asyncio.Queue() 
+    # for content in text_array:
+    #     await text_queue.put(content)
+    # await text_queue.put(None)
+
+    # await text_to_speech_streaming(text_queue)
 
     
     

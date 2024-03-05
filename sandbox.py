@@ -14,12 +14,12 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)  # Log everything at DEBUG level and above
 
 # Setup logging to file for detailed debug information
-file_handler_debug = logging.FileHandler('debug_log.log', mode='w')
+file_handler_debug = logging.FileHandler('logs/debug_log.log', mode='w')
 file_handler_debug.setLevel(logging.DEBUG)
 file_handler_debug.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 
 # Setup logging to file for info messages
-file_handler_info = logging.FileHandler('info_log.log', mode='w')
+file_handler_info = logging.FileHandler('logs/info_log.log', mode='w')
 file_handler_info.setLevel(logging.INFO)
 file_handler_info.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
 
