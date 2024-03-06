@@ -2,6 +2,7 @@ import json
 import logging
 import unittest
 import unicodedata
+from unidecode import unidecode
 
 # Setup file logging
 logger = logging.getLogger()
@@ -24,6 +25,10 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
         nfkd_form = unicodedata.normalize('NFKD', input_str)
         return ''.join([c for c in nfkd_form if not unicodedata.combining(c)])
 
+    def replace_special_quotes(char_array):
+        special_quotes = {'\u2018': '"', '\u2019': '"', '\u201c': '"', '\u201d': '"'}
+        return [special_quotes.get(char, char) for char in char_array]
+
     def replace_newlines(arr):
         result = []
         for char in arr:
@@ -42,8 +47,10 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
 
 
     # Format chars to send for easier comparison with characters received
-    chars_to_send_formatted = [remove_accents(c) for c in chars_to_send]    # Normalize the chars_to_send. Change special characters to unicode base chars. ex: "é" -> "e".
-    
+    # chars_to_send_formatted = [remove_accents(c) for c in chars_to_send]    # Normalize the chars_to_send. Change special characters to unicode base chars. ex: "é" -> "e".
+    # chars_to_send_formatted = replace_special_quotes(chars_to_send_formatted)
+    chars_to_send_formatted = [unidecode(c) for c in chars_to_send]
+
     # Format chars received for easier comparison
     chars_received_formatted = chars_received[1:]   # Remove leading space in chars_received
     
@@ -102,9 +109,11 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
             
 
             except ValueError as e: # If can't find matching char in chars received
-                logger.error(f"Context for chars_to_send: {json.dumps(chars_to_send_formatted[max(0, i-10):i+10])}")
-                logger.error(f"Context for chars_received (centered at j): {json.dumps(chars_received_formatted[max(0, j-10):j+10])}")
-                raise Exception(f"Could not confirm the following char: '{char}'")
+                logger.warning(f"Index() could not find a match for char '{char}' at position {i}")
+                logger.debug(f"Context for chars_to_send: {json.dumps(chars_to_send_formatted[max(0, i-10):i+10])}")
+                logger.debug(f"Context for chars_received (centered at j): {json.dumps(chars_received_formatted[max(0, j-10):j+10])}")
+                continue_point = i
+                break
 
 
         else: # If reached end of received chars, then the current un-matched char is the continue point
@@ -124,6 +133,9 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
 class TestGetRemainingCharacters(unittest.TestCase):
 
     def test_01(self):
+        """ Test that remaining chars found in a typical retry context. """
+        logger.info("Running test 01")
+
         with open('inputs/01/chars_to_send.json', 'r') as f:
             chars_to_send = json.load(f)
 
@@ -131,6 +143,42 @@ class TestGetRemainingCharacters(unittest.TestCase):
             chars_received = json.load(f)
         
         with open('inputs/01/remaining_chars.json', 'r') as f:
+            remaining_chars = json.load(f)
+        
+        val = get_remaining_chars_to_send(chars_to_send, chars_received)
+
+        self.assertEqual(val, remaining_chars)
+    
+    
+    def test_02(self):
+        """ Test that function accounts for special characters like fancy right quotation marks. """
+        logger.info("Running test 02")
+
+        with open('inputs/02/chars_to_send.json', 'r') as f:
+            chars_to_send = json.load(f)
+
+        with open('inputs/02/chars_received.json', 'r') as f:
+            chars_received = json.load(f)
+        
+        with open('inputs/02/remaining_chars.json', 'r') as f:
+            remaining_chars = json.load(f)
+        
+        val = get_remaining_chars_to_send(chars_to_send, chars_received)
+
+        self.assertEqual(val, remaining_chars)
+    
+    
+    def test_03(self):
+        """ Test that remaining chars starts with the first unmatched char in the event that index() could not find matching char. """
+        logger.info("Running test 03")
+
+        with open('inputs/03/chars_to_send.json', 'r') as f:
+            chars_to_send = json.load(f)
+
+        with open('inputs/03/chars_received.json', 'r') as f:
+            chars_received = json.load(f)
+        
+        with open('inputs/03/remaining_chars.json', 'r') as f:
             remaining_chars = json.load(f)
         
         val = get_remaining_chars_to_send(chars_to_send, chars_received)

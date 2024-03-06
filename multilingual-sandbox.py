@@ -240,7 +240,7 @@ async def text_to_speech_input_streaming(voice_id, text_queue, chars_to_send):
 
     while True:
         try:
-            uri = f"wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream-input?model_id=eleven_monolingual_v1&xi_api_key={ELEVENLABS_API_KEY}"
+            uri = f"wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream-input?model_id=eleven_multilingual_v2&xi_api_key={ELEVENLABS_API_KEY}"
             async with websockets.connect(uri) as websocket:
                 logging.info("WebSocket connection established with ElevenLabs API.")
                 init_message = {
@@ -274,7 +274,7 @@ async def text_to_speech_input_streaming(voice_id, text_queue, chars_to_send):
             chars_to_send = remaining_chars
             chars_received = []
             chunked_text_queue = asyncio.Queue()
-            # audio_queue = asyncio.Queue()
+            audio_queue = asyncio.Queue()
 
 
             
@@ -309,8 +309,9 @@ async def main():
     logging.info("Program started")
     # user_query = "Hello, tell me a very short story."
     # user_query = "Hey there, can you give me an inspirational quote from someone famous? I'm feeling a little tired but I want to get inspired to work hard today."
-    user_query = "Hello, can you tell me a story that is exactly 500 words long?"
-    # user_query = "Hello, can you explain how async and yields work in python?"
+    # user_query = "Hello, can you tell me a story that is exactly 500 words long?"
+    # user_query = "Hello, can you tell me a shorty story in spanish and under 100 words long?"
+    user_query = "Hello, can you tell me a shorty story in japanese and under 100 words long?"
 
     text_queue = asyncio.Queue()
     chars_to_send = []
