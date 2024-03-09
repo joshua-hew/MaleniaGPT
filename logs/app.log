@@ -1,0 +1,14 @@
+2024-03-08 22:42:15,896 - app - INFO - Program started
+2024-03-08 22:42:15,896 - app - INFO - Sending query to OpenAI: Hello, can you tell me a story that is exactly 500 words long?
+2024-03-08 22:42:16,124 - app - INFO - WebSocket connection established with ElevenLabs API.
+2024-03-08 22:42:16,125 - app - INFO - Started listening to websocket
+2024-03-08 22:42:16,125 - app - INFO - Starting mpv process
+2024-03-08 22:42:16,133 - app - INFO - Started streaming audio
+2024-03-08 22:42:34,006 - app - INFO - Received end of OpenAI response
+2024-03-08 22:42:34,009 - app - INFO - Text chunker reached end of text queue. text_chunker()
+2024-03-08 22:42:34,010 - app - INFO - Send text reached end of chunked text queue. Sending EOS signal. send_text()
+2024-03-08 22:47:34,977 - app - INFO - Received final audio response
+2024-03-08 22:47:34,979 - app - INFO - Stream reached end of audio queue
+2024-03-08 22:47:34,979 - app - INFO - Stopping mpv process...
+2024-03-08 22:47:36,980 - app - INFO - Stopped mpv process
+2024-03-08 22:47:37,028 - app - INFO - Program finished
