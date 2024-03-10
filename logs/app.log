@@ -1,14 +1,14 @@
-2024-03-09 21:57:39,252 - app - INFO - Program started
-2024-03-09 21:57:39,252 - app - INFO - Sending query to OpenAI: Hello, tell me a short story in 100 words or less? Also, can you tell the story in a mix of english and japanese?
-2024-03-09 21:57:39,416 - app - INFO - WebSocket connection established with ElevenLabs API.
-2024-03-09 21:57:39,417 - app - INFO - Started listening to websocket
-2024-03-09 21:57:39,417 - app - INFO - Starting mpv process
-2024-03-09 21:57:39,422 - app - INFO - Started streaming audio
-2024-03-09 21:57:42,460 - app - INFO - Received end of OpenAI response
-2024-03-09 21:57:42,462 - app - INFO - Text chunker reached end of text queue.
-2024-03-09 21:57:42,463 - app - INFO - Send text reached end of chunked text queue. Sending EOS signal.
-2024-03-09 21:58:13,484 - app - INFO - Received final audio response
-2024-03-09 21:58:17,578 - app - INFO - Stream reached end of audio queue
-2024-03-09 21:58:17,578 - app - INFO - Stopping mpv process...
-2024-03-09 21:58:25,885 - app - INFO - Stopped mpv process
-2024-03-09 21:58:25,893 - app - INFO - Program finished
+2024-03-10 17:31:07,010 - app - INFO - Program started
+2024-03-10 17:31:07,011 - app - INFO - Sending query to OpenAI: Hello, tell me a short story in 100 words or less and in spanish?
+2024-03-10 17:31:07,268 - app - INFO - WebSocket connection established with ElevenLabs API.
+2024-03-10 17:31:07,269 - app - INFO - Started listening to websocket
+2024-03-10 17:31:07,270 - app - INFO - Starting mpv process
+2024-03-10 17:31:07,276 - app - INFO - Started streaming audio
+2024-03-10 17:31:11,250 - app - INFO - Received end of OpenAI response
+2024-03-10 17:31:11,252 - app - INFO - Text chunker reached end of text queue.
+2024-03-10 17:31:11,253 - app - INFO - Send text reached end of chunked text queue. Sending EOS signal.
+2024-03-10 17:31:27,606 - app - INFO - Received final audio response
+2024-03-10 17:31:34,077 - app - INFO - Stream reached end of audio queue
+2024-03-10 17:31:34,077 - app - INFO - Stopping mpv process...
+2024-03-10 17:31:42,977 - app - INFO - Stopped mpv process
+2024-03-10 17:31:42,979 - app - INFO - Program finished

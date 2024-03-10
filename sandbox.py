@@ -96,7 +96,7 @@ class MPVProcessSingleton:
             self.process = None
             multi_log("Stopped mpv process", loggers=['app', 'stream'])
 
-            
+
 
 async def text_chunker(input_queue, output_queue):
     """Split text into chunks (words) and place them into an output queue."""
@@ -205,8 +205,26 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
     logger.debug(f"{json.dumps(chars_received)}")
 
 
+    def custom_decode(char):
+        special_chars = {
+            "\u2018": "'",  # Left single quotation mark
+            "\u2019": "'",  # Right single quotation mark
+            "\u201C": '"',  # Left double quotation mark
+            "\u201D": '"',  # Right double quotation mark
+            "\u2013": "-",  # En dash
+            "\u2014": "-",  # Em dash
+            "\u2026": "...",  # Horizontal ellipsis
+            "\u2022": "*",  # Bullet
+            "\u00A3": "GBP",  # Pound sign
+            "\u20AC": "EUR",  # Euro sign
+            "\u00D7": "x",  # Multiplication sign
+            "\u00F7": "/",  # Division sign
+            # Add more special characters as needed
+        }
+        return special_chars.get(char, char)
+
     # Format chars to send for easier comparison with characters received
-    chars_to_send_formatted = [unidecode(c) for c in chars_to_send]
+    chars_to_send_formatted = [custom_decode(c) for c in chars_to_send]
 
     # Format chars received for easier comparison
     chars_received_formatted = chars_received[1:]   # Remove leading space in chars_received
@@ -278,7 +296,12 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
             continue_point = i
             break
 
+    # If loop exited naturally (went out of bounds), then all characters were matched...
+    if continue_point is None:
+        logger.info("All characters received. No need to find continue point.")
+        return []
 
+    logger.debug(f"Continue point: {continue_point}")
     remaining_chars = chars_to_send[continue_point:]
 
     logger.debug(f"Remaining chars. Len {len(remaining_chars)}")
@@ -375,7 +398,7 @@ async def chat_completion(query, text_queue, chars_to_send):
 
 async def main():
     app_logger.info("Program started")
-    user_query = "Hello, tell me a short story in 100 words or less?"
+    user_query = "Hello, tell me a short story in 100 words or less and in spanish?"
     # user_query = "Hello, tell me a short story in 200 words or less? Also, can you tell the story in a mix of english and spanish?"
     # user_query = "Hello, tell me a short story in 100 words or less? Also, can you tell the story in a mix of english and japanese?"
     # user_query = "Hello, can you give me an inspirational quote from someone famous? I'm feeling a little tired but I want to get inspired to work hard today."

@@ -1,5 +1,5 @@
-2024-03-09 21:57:39,417 - stream - INFO - Starting mpv process
-2024-03-09 21:57:39,422 - stream - INFO - Started streaming audio
-2024-03-09 21:58:17,578 - stream - INFO - Stream reached end of audio queue
-2024-03-09 21:58:17,579 - stream - INFO - Stopping mpv process...
-2024-03-09 21:58:25,885 - stream - INFO - Stopped mpv process
+2024-03-10 17:31:07,270 - stream - INFO - Starting mpv process
+2024-03-10 17:31:07,276 - stream - INFO - Started streaming audio
+2024-03-10 17:31:34,077 - stream - INFO - Stream reached end of audio queue
+2024-03-10 17:31:34,077 - stream - INFO - Stopping mpv process...
+2024-03-10 17:31:42,977 - stream - INFO - Stopped mpv process

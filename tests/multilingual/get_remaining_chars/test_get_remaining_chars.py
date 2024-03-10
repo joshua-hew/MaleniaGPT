@@ -168,9 +168,26 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
     logger.debug(f"{json.dumps(chars_received)}")
 
 
+    def custom_decode(char):
+        special_chars = {
+            "\u2018": "'",  # Left single quotation mark
+            "\u2019": "'",  # Right single quotation mark
+            "\u201C": '"',  # Left double quotation mark
+            "\u201D": '"',  # Right double quotation mark
+            "\u2013": "-",  # En dash
+            "\u2014": "-",  # Em dash
+            "\u2026": "...",  # Horizontal ellipsis
+            "\u2022": "*",  # Bullet
+            "\u00A3": "GBP",  # Pound sign
+            "\u20AC": "EUR",  # Euro sign
+            "\u00D7": "x",  # Multiplication sign
+            "\u00F7": "/",  # Division sign
+            # Add more special characters as needed
+        }
+        return special_chars.get(char, char)
+
     # Format chars to send for easier comparison with characters received
-    # chars_to_send_formatted = [unidecode(c) for c in chars_to_send]
-    chars_to_send_formatted = chars_to_send
+    chars_to_send_formatted = [custom_decode(c) for c in chars_to_send]
 
     # Format chars received for easier comparison
     chars_received_formatted = chars_received[1:]   # Remove leading space in chars_received
@@ -242,12 +259,18 @@ def get_remaining_chars_to_send(chars_to_send: list, chars_received: list) -> li
             continue_point = i
             break
 
+    # If loop exited naturally (went out of bounds), then all characters were matched...
+    if continue_point is None:
+        logger.info("All characters received. No need to find continue point.")
+        return []
 
+    logger.debug(f"Continue point: {continue_point}")
     remaining_chars = chars_to_send[continue_point:]
 
     logger.debug(f"Remaining chars. Len {len(remaining_chars)}")
     logger.debug(f"{json.dumps(remaining_chars)}")
     return remaining_chars
+
 
 class TestGetRemainingCharacters(unittest.TestCase):
 
@@ -270,23 +293,23 @@ class TestGetRemainingCharacters(unittest.TestCase):
         self.assertEqual(val, remaining_chars)
     
     
-    # def test_02(self):
-    #     """ Test that function accounts for special characters like fancy right quotation marks. """
-    #     logger = logging.getLogger('get_remaining_chars_to_send')
-    #     logger.info("Running test 02")
+    def test_02(self):
+        """ Test weird use case where all characters were received, but audio started over from beginning when approaching end of openai response. """
+        logger = logging.getLogger('get_remaining_chars_to_send')
+        logger.info("Running test 02")
 
-    #     with open('inputs/02/chars_to_send.json', 'r') as f:
-    #         chars_to_send = json.load(f)
+        with open('inputs/02/chars_to_send.json', 'r') as f:
+            chars_to_send = json.load(f)
 
-    #     with open('inputs/02/chars_received.json', 'r') as f:
-    #         chars_received = json.load(f)
+        with open('inputs/02/chars_received.json', 'r') as f:
+            chars_received = json.load(f)
         
-    #     with open('inputs/02/remaining_chars.json', 'r') as f:
-    #         remaining_chars = json.load(f)
+        with open('inputs/02/remaining_chars.json', 'r') as f:
+            remaining_chars = json.load(f)
         
-    #     val = get_remaining_chars_to_send(chars_to_send, chars_received)
+        val = get_remaining_chars_to_send(chars_to_send, chars_received)
 
-    #     self.assertEqual(val, remaining_chars)
+        self.assertEqual(val, remaining_chars)
     
     
     # def test_03(self):
