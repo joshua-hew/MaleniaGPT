@@ -95,34 +95,39 @@ class MPVProcessSingleton:
             self.process.wait()
             self.process = None
             multi_log("Stopped mpv process", loggers=['app', 'stream'])
+
             
 
-
 async def text_chunker(input_queue, output_queue):
-    """Split text into chunks, ensuring to not break sentences, and place them into an output queue."""
-    splitters = (".", ",", "?", "!", ";", ":", "—", "-", "(", ")", "[", "]", "}", " ")
+    """Split text into chunks (words) and place them into an output queue."""
     buffer = ""
-
     logger = logging.getLogger('text_chunker')
+
+    async def put_in_queue(data, queue):
+        logger.debug(f"Adding to queue: {repr(data)}")
+        await queue.put(data)
 
     while True:
         text = await input_queue.get()
+        logger.debug(f"Chunker received text: {repr(text)}")
+        
         if text is None:  # End of input
-            multi_log("Text chunker reached end of text queue. text_chunker()", loggers=['app', 'text_chunker'])
+            multi_log("Text chunker reached end of text queue.", loggers=['app', 'text_chunker'])
             if buffer:
-                await output_queue.put(buffer + " ")
-            await output_queue.put(None)  # Signal completion
+                await put_in_queue(buffer + " ", output_queue)
+                buffer = "" # Reset buffer
+            await put_in_queue(None, output_queue) # Signal completion
             break
 
-        logger.debug(f"Chunker received text: '{text}'")
-        if buffer.endswith(splitters):
-            await output_queue.put(buffer + " ")
-            buffer = text
-        elif text.startswith(splitters):
-            await output_queue.put(buffer + text[0] + " ")
-            buffer = text[1:]
-        else:
-            buffer += text
+        for char in text:
+            if char == " ": # We have reached end of word. Send contents of buffer
+                if buffer:
+                    await put_in_queue(buffer + " ", output_queue)
+                    buffer = ""
+            else:
+                buffer += char
+        
+        logger.debug(f"Buffer: {repr(buffer)}")
 
 
 async def send_text(websocket, chunked_text_queue):
@@ -133,11 +138,11 @@ async def send_text(websocket, chunked_text_queue):
     while True:
         chunked_text = await chunked_text_queue.get()
         if chunked_text is None:  # End of chunked text. Signal the end of the text stream
-            multi_log("Send text reached end of chunked text queue. Sending EOS signal. send_text()", loggers=['app', 'send_text'])
+            multi_log("Send text reached end of chunked text queue. Sending EOS signal.", loggers=['app', 'send_text'])
             await websocket.send(json.dumps({"text": ""}))
             break
-        text_message = {"text": chunked_text, "try_trigger_generation": True}
-        logger.debug(f"Sending text to ElevenLabs for TTS: {text_message}")
+        text_message = {"text": chunked_text, "try_trigger_generation": False}
+        logger.debug(f"Sending text to ElevenLabs for TTS: {repr(chunked_text)}")
         await websocket.send(json.dumps(text_message))
     
 
@@ -370,10 +375,12 @@ async def chat_completion(query, text_queue, chars_to_send):
 
 async def main():
     app_logger.info("Program started")
-    # user_query = "Hello, tell me a short story in 100 words or less?"
+    user_query = "Hello, tell me a short story in 100 words or less?"
+    # user_query = "Hello, tell me a short story in 200 words or less? Also, can you tell the story in a mix of english and spanish?"
+    # user_query = "Hello, tell me a short story in 100 words or less? Also, can you tell the story in a mix of english and japanese?"
     # user_query = "Hello, can you give me an inspirational quote from someone famous? I'm feeling a little tired but I want to get inspired to work hard today."
-    user_query = "Hello, can you tell me a story that is exactly 500 words long?"
-    # user_query = "Hello, can you summarize the tragedy of darth plageuis the wise in 100 words or less? Also, can you say it in a mix of english and spanish?"
+    # user_query = "Hello, can you tell me a story that is exactly 500 words long?"
+    # user_query = "Hello, can you summarize the tragedy of darth plageuis the wise in 100 words or less?"
 
     text_queue = asyncio.Queue()
     chars_to_send = []
