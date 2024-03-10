@@ -7,7 +7,6 @@ import asyncio
 import subprocess
 import websockets
 from openai import AsyncOpenAI
-from unidecode import unidecode
 
 
 def setup_logger(name):
@@ -360,21 +359,28 @@ async def text_to_speech_input_streaming(voice_id, text_queue, chars_to_send):
 
 
 
-async def chat_completion(query, text_queue, chars_to_send):
+async def chat_completion(messages, text_queue, chars_to_send):
     logger = logging.getLogger('chat_completion')
-    multi_log(f"Sending query to OpenAI: {query}", loggers=['app', 'chat_completion'])
+    multi_log(f"Sending query to OpenAI: {messages[-1]}", loggers=['app', 'chat_completion'])
 
     response = await aclient.chat.completions.create(
         model='gpt-4', 
-        messages=[{'role': 'user', 'content': query}],
+        messages=messages,
         temperature=1, 
         stream=True
     )
 
+    role = None
     response_content = []
-
-    async for chunk in response:
+    
+    async for chunk in response:        
         delta = chunk.choices[0].delta
+
+        # Role only returned in first chunk. First chunk always empty string.
+        if delta.content == '':
+            role = delta.role
+            logger.debug(f"Role: {role}")
+
         if delta.content is not None:
             if delta.content != "": # OpenAI usually starts response with empty string
                 print(delta.content, end='', flush=True)
@@ -394,23 +400,51 @@ async def chat_completion(query, text_queue, chars_to_send):
             logger.info(f"Response content: {json.dumps(response_content)}")
             logger.debug(f"chars_to_send: {json.dumps(chars_to_send)}")
             await text_queue.put(None)  # Sentinel value to indicate no more items will be added
+            
+            # Return dict containing the role + response string
+            response_content_string = "".join(response_content)
+            ret_val = {'role': role, 'content': response_content_string}
+            logger.debug(f"ret_val: {json.dumps(ret_val)}")
+            return ret_val
     
 
+# async def main():
+#     app_logger.info("Program started")
+#     user_query = "Hello, tell me a short story in 100 words or less and in spanish?"
+#     # user_query = "Hello, tell me a short story in 200 words or less? Also, can you tell the story in a mix of english and spanish?"
+#     # user_query = "Hello, tell me a short story in 100 words or less? Also, can you tell the story in a mix of english and japanese?"
+#     # user_query = "Hello, can you give me an inspirational quote from someone famous? I'm feeling a little tired but I want to get inspired to work hard today."
+#     # user_query = "Hello, can you tell me a story that is exactly 500 words long?"
+#     # user_query = "Hello, can you summarize the tragedy of darth plageuis the wise in 100 words or less?"
+
+#     text_queue = asyncio.Queue()
+#     chars_to_send = []
+#     await asyncio.gather(
+#         chat_completion(user_query, text_queue, chars_to_send),
+#         text_to_speech_input_streaming(VOICE_ID, text_queue, chars_to_send)
+#     )
+#     app_logger.info("Program finished")
+            
 async def main():
     app_logger.info("Program started")
-    user_query = "Hello, tell me a short story in 100 words or less and in spanish?"
-    # user_query = "Hello, tell me a short story in 200 words or less? Also, can you tell the story in a mix of english and spanish?"
-    # user_query = "Hello, tell me a short story in 100 words or less? Also, can you tell the story in a mix of english and japanese?"
-    # user_query = "Hello, can you give me an inspirational quote from someone famous? I'm feeling a little tired but I want to get inspired to work hard today."
-    # user_query = "Hello, can you tell me a story that is exactly 500 words long?"
-    # user_query = "Hello, can you summarize the tragedy of darth plageuis the wise in 100 words or less?"
+    
+    messages = []
 
-    text_queue = asyncio.Queue()
-    chars_to_send = []
-    await asyncio.gather(
-        chat_completion(user_query, text_queue, chars_to_send),
-        text_to_speech_input_streaming(VOICE_ID, text_queue, chars_to_send)
-    )
+    while True:
+        user_query = input("Enter your query or type 'exit' to quit: ")
+        messages.append({'role': 'user', 'content': user_query})
+        if user_query.lower() == 'exit':
+            break
+        
+        text_queue = asyncio.Queue()
+        chars_to_send = []
+        values = await asyncio.gather(
+            chat_completion(messages, text_queue, chars_to_send),
+            text_to_speech_input_streaming(VOICE_ID, text_queue, chars_to_send)
+        )
+
+        messages.append(values[0])
+
     app_logger.info("Program finished")
 
 

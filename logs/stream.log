@@ -1,5 +1,15 @@
-2024-03-10 17:31:07,270 - stream - INFO - Starting mpv process
-2024-03-10 17:31:07,276 - stream - INFO - Started streaming audio
-2024-03-10 17:31:34,077 - stream - INFO - Stream reached end of audio queue
-2024-03-10 17:31:34,077 - stream - INFO - Stopping mpv process...
-2024-03-10 17:31:42,977 - stream - INFO - Stopped mpv process
+2024-03-10 18:12:15,122 - stream - INFO - Starting mpv process
+2024-03-10 18:12:15,126 - stream - INFO - Started streaming audio
+2024-03-10 18:12:16,205 - stream - INFO - Stream reached end of audio queue
+2024-03-10 18:12:16,205 - stream - INFO - Stopping mpv process...
+2024-03-10 18:12:17,260 - stream - INFO - Stopped mpv process
+2024-03-10 18:12:40,414 - stream - INFO - Starting mpv process
+2024-03-10 18:12:40,418 - stream - INFO - Started streaming audio
+2024-03-10 18:12:41,523 - stream - INFO - Stream reached end of audio queue
+2024-03-10 18:12:41,524 - stream - INFO - Stopping mpv process...
+2024-03-10 18:12:42,607 - stream - INFO - Stopped mpv process
+2024-03-10 18:13:02,581 - stream - INFO - Starting mpv process
+2024-03-10 18:13:02,585 - stream - INFO - Started streaming audio
+2024-03-10 18:13:07,055 - stream - INFO - Stream reached end of audio queue
+2024-03-10 18:13:07,055 - stream - INFO - Stopping mpv process...
+2024-03-10 18:13:13,328 - stream - INFO - Stopped mpv process
