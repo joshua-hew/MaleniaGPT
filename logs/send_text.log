@@ -1,20 +1,23 @@
-2024-03-10 18:12:15,374 - send_text - DEBUG - Sending text to ElevenLabs for TTS: '4 '
-2024-03-10 18:12:15,374 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.
-2024-03-10 18:12:40,701 - send_text - DEBUG - Sending text to ElevenLabs for TTS: '3 '
-2024-03-10 18:12:40,701 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.
-2024-03-10 18:13:03,117 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'Yes, '
-2024-03-10 18:13:03,118 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'I '
-2024-03-10 18:13:03,118 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'would '
-2024-03-10 18:13:03,156 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'agree! '
-2024-03-10 18:13:03,156 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'These '
-2024-03-10 18:13:03,212 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'are '
-2024-03-10 18:13:03,213 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'simple '
-2024-03-10 18:13:03,213 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'arithmetic '
-2024-03-10 18:13:03,273 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'calculations, '
-2024-03-10 18:13:03,273 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'often '
-2024-03-10 18:13:03,334 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'referred '
-2024-03-10 18:13:03,334 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'to '
-2024-03-10 18:13:03,334 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'as '
-2024-03-10 18:13:03,337 - send_text - DEBUG - Sending text to ElevenLabs for TTS: '"quick '
-2024-03-10 18:13:03,339 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'maths". '
-2024-03-10 18:13:03,339 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.
+2024-03-13 22:00:24,752 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'You '
+2024-03-13 22:00:24,836 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'say '
+2024-03-13 22:00:24,849 - send_text - DEBUG - Sending text to ElevenLabs for TTS: '"Hola" '
+2024-03-13 22:00:24,849 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'in '
+2024-03-13 22:00:24,849 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'Spanish. '
+2024-03-13 22:00:24,849 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.
+2024-03-13 22:00:39,327 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'Hola '
+2024-03-13 22:00:39,328 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.
+2024-03-13 22:01:02,065 - send_text - DEBUG - Sending text to ElevenLabs for TTS: '"Cómo '
+2024-03-13 22:01:02,066 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'se '
+2024-03-13 22:01:02,067 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'dice" '
+2024-03-13 22:01:02,067 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.
+2024-03-13 22:01:15,680 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'Great! '
+2024-03-13 22:01:15,754 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'Feel '
+2024-03-13 22:01:15,754 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'free '
+2024-03-13 22:01:15,851 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'to '
+2024-03-13 22:01:15,852 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'ask '
+2024-03-13 22:01:15,852 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'if '
+2024-03-13 22:01:15,855 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'you '
+2024-03-13 22:01:15,855 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'have '
+2024-03-13 22:01:15,855 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'more '
+2024-03-13 22:01:15,858 - send_text - DEBUG - Sending text to ElevenLabs for TTS: 'questions. '
+2024-03-13 22:01:15,859 - send_text - INFO - Send text reached end of chunked text queue. Sending EOS signal.

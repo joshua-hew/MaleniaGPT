@@ -6,6 +6,8 @@ import logging
 import asyncio
 import subprocess
 import websockets
+import speech_recognition as sr
+
 from openai import AsyncOpenAI
 
 
@@ -424,15 +426,48 @@ async def chat_completion(messages, text_queue, chars_to_send):
 #         text_to_speech_input_streaming(VOICE_ID, text_queue, chars_to_send)
 #     )
 #     app_logger.info("Program finished")
-            
+
+def speech_to_text():
+    # Initialize the recognizer
+    r = sr.Recognizer()
+
+    # Use the default microphone as the audio source
+    with sr.Microphone() as source:
+        print("Please say something:")
+        # Listen for the first phrase and extract the audio data
+        audio = r.listen(source)
+
+        try:
+            # Use Google's speech recognition
+            text = r.recognize_google(audio)
+            print("You said: " + text)
+            return text
+        except sr.UnknownValueError:
+            print("Google Speech Recognition could not understand audio")
+        except sr.RequestError as e:
+            print("Could not request results from Google Speech Recognition service; {0}".format(e))
+
 async def main():
     app_logger.info("Program started")
     
     messages = []
 
     while True:
-        user_query = input("Enter your query or type 'exit' to quit: ")
+        
+        # Todo:
+        # Speech to text
+        # user_query = input("Enter your query or type 'exit' to quit: ")
+        user_query = speech_to_text()
+        if user_query is None: 
+            continue
+        
+
         messages.append({'role': 'user', 'content': user_query})
+
+        # Ensure messages token size is under the limit. TODO: Implement better solution
+        if len(messages) > 10:
+            messages = messages[-10:]
+
         if user_query.lower() == 'exit':
             break
         
@@ -444,6 +479,7 @@ async def main():
         )
 
         messages.append(values[0])
+        print('\n')
 
     app_logger.info("Program finished")
 

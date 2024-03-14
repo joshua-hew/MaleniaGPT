@@ -1,15 +1,20 @@
-2024-03-10 18:12:15,122 - stream - INFO - Starting mpv process
-2024-03-10 18:12:15,126 - stream - INFO - Started streaming audio
-2024-03-10 18:12:16,205 - stream - INFO - Stream reached end of audio queue
-2024-03-10 18:12:16,205 - stream - INFO - Stopping mpv process...
-2024-03-10 18:12:17,260 - stream - INFO - Stopped mpv process
-2024-03-10 18:12:40,414 - stream - INFO - Starting mpv process
-2024-03-10 18:12:40,418 - stream - INFO - Started streaming audio
-2024-03-10 18:12:41,523 - stream - INFO - Stream reached end of audio queue
-2024-03-10 18:12:41,524 - stream - INFO - Stopping mpv process...
-2024-03-10 18:12:42,607 - stream - INFO - Stopped mpv process
-2024-03-10 18:13:02,581 - stream - INFO - Starting mpv process
-2024-03-10 18:13:02,585 - stream - INFO - Started streaming audio
-2024-03-10 18:13:07,055 - stream - INFO - Stream reached end of audio queue
-2024-03-10 18:13:07,055 - stream - INFO - Stopping mpv process...
-2024-03-10 18:13:13,328 - stream - INFO - Stopped mpv process
+2024-03-13 22:00:24,579 - stream - INFO - Starting mpv process
+2024-03-13 22:00:24,587 - stream - INFO - Started streaming audio
+2024-03-13 22:00:26,088 - stream - INFO - Stream reached end of audio queue
+2024-03-13 22:00:26,088 - stream - INFO - Stopping mpv process...
+2024-03-13 22:00:28,220 - stream - INFO - Stopped mpv process
+2024-03-13 22:00:38,959 - stream - INFO - Starting mpv process
+2024-03-13 22:00:38,965 - stream - INFO - Started streaming audio
+2024-03-13 22:00:40,059 - stream - INFO - Stream reached end of audio queue
+2024-03-13 22:00:40,059 - stream - INFO - Stopping mpv process...
+2024-03-13 22:00:41,067 - stream - INFO - Stopped mpv process
+2024-03-13 22:01:01,640 - stream - INFO - Starting mpv process
+2024-03-13 22:01:01,647 - stream - INFO - Started streaming audio
+2024-03-13 22:01:03,312 - stream - INFO - Stream reached end of audio queue
+2024-03-13 22:01:03,312 - stream - INFO - Stopping mpv process...
+2024-03-13 22:01:04,923 - stream - INFO - Stopped mpv process
+2024-03-13 22:01:15,106 - stream - INFO - Starting mpv process
+2024-03-13 22:01:15,113 - stream - INFO - Started streaming audio
+2024-03-13 22:01:17,567 - stream - INFO - Stream reached end of audio queue
+2024-03-13 22:01:17,567 - stream - INFO - Stopping mpv process...
+2024-03-13 22:01:21,401 - stream - INFO - Stopped mpv process

@@ -1,43 +1,54 @@
-2024-03-10 18:12:14,968 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': 'What is 2+2?'}
-2024-03-10 18:12:15,371 - chat_completion - DEBUG - Role: assistant
-2024-03-10 18:12:15,371 - chat_completion - DEBUG - Delta.content is empty string: ''
-2024-03-10 18:12:15,372 - chat_completion - DEBUG - Received content from OpenAI: '4'
-2024-03-10 18:12:15,373 - chat_completion - INFO - Received end of OpenAI response
-2024-03-10 18:12:15,373 - chat_completion - INFO - Response content: ["4"]
-2024-03-10 18:12:15,373 - chat_completion - DEBUG - chars_to_send: ["4"]
-2024-03-10 18:12:15,373 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "4"}
-2024-03-10 18:12:40,314 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': 'if you subtract 1, what is it now?'}
-2024-03-10 18:12:40,698 - chat_completion - DEBUG - Role: assistant
-2024-03-10 18:12:40,698 - chat_completion - DEBUG - Delta.content is empty string: ''
-2024-03-10 18:12:40,699 - chat_completion - DEBUG - Received content from OpenAI: '3'
-2024-03-10 18:12:40,700 - chat_completion - INFO - Received end of OpenAI response
-2024-03-10 18:12:40,700 - chat_completion - INFO - Response content: ["3"]
-2024-03-10 18:12:40,700 - chat_completion - DEBUG - chars_to_send: ["3"]
-2024-03-10 18:12:40,700 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "3"}
-2024-03-10 18:13:02,486 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': 'I guess some would call that quick maths. Would you agree?'}
-2024-03-10 18:13:03,032 - chat_completion - DEBUG - Role: assistant
-2024-03-10 18:13:03,032 - chat_completion - DEBUG - Delta.content is empty string: ''
-2024-03-10 18:13:03,033 - chat_completion - DEBUG - Received content from OpenAI: 'Yes'
-2024-03-10 18:13:03,033 - chat_completion - DEBUG - Received content from OpenAI: ','
-2024-03-10 18:13:03,115 - chat_completion - DEBUG - Received content from OpenAI: ' I'
-2024-03-10 18:13:03,116 - chat_completion - DEBUG - Received content from OpenAI: ' would'
-2024-03-10 18:13:03,117 - chat_completion - DEBUG - Received content from OpenAI: ' agree'
-2024-03-10 18:13:03,154 - chat_completion - DEBUG - Received content from OpenAI: '!'
-2024-03-10 18:13:03,155 - chat_completion - DEBUG - Received content from OpenAI: ' These'
-2024-03-10 18:13:03,155 - chat_completion - DEBUG - Received content from OpenAI: ' are'
-2024-03-10 18:13:03,210 - chat_completion - DEBUG - Received content from OpenAI: ' simple'
-2024-03-10 18:13:03,211 - chat_completion - DEBUG - Received content from OpenAI: ' arithmetic'
-2024-03-10 18:13:03,212 - chat_completion - DEBUG - Received content from OpenAI: ' calculations'
-2024-03-10 18:13:03,271 - chat_completion - DEBUG - Received content from OpenAI: ','
-2024-03-10 18:13:03,272 - chat_completion - DEBUG - Received content from OpenAI: ' often'
-2024-03-10 18:13:03,272 - chat_completion - DEBUG - Received content from OpenAI: ' referred'
-2024-03-10 18:13:03,332 - chat_completion - DEBUG - Received content from OpenAI: ' to'
-2024-03-10 18:13:03,333 - chat_completion - DEBUG - Received content from OpenAI: ' as'
-2024-03-10 18:13:03,333 - chat_completion - DEBUG - Received content from OpenAI: ' "'
-2024-03-10 18:13:03,335 - chat_completion - DEBUG - Received content from OpenAI: 'quick'
-2024-03-10 18:13:03,336 - chat_completion - DEBUG - Received content from OpenAI: ' maths'
-2024-03-10 18:13:03,337 - chat_completion - DEBUG - Received content from OpenAI: '".'
-2024-03-10 18:13:03,338 - chat_completion - INFO - Received end of OpenAI response
-2024-03-10 18:13:03,338 - chat_completion - INFO - Response content: ["Yes", ",", " I", " would", " agree", "!", " These", " are", " simple", " arithmetic", " calculations", ",", " often", " referred", " to", " as", " \"", "quick", " maths", "\"."]
-2024-03-10 18:13:03,338 - chat_completion - DEBUG - chars_to_send: ["Y", "e", "s", ",", " ", "I", " ", "w", "o", "u", "l", "d", " ", "a", "g", "r", "e", "e", "!", " ", "T", "h", "e", "s", "e", " ", "a", "r", "e", " ", "s", "i", "m", "p", "l", "e", " ", "a", "r", "i", "t", "h", "m", "e", "t", "i", "c", " ", "c", "a", "l", "c", "u", "l", "a", "t", "i", "o", "n", "s", ",", " ", "o", "f", "t", "e", "n", " ", "r", "e", "f", "e", "r", "r", "e", "d", " ", "t", "o", " ", "a", "s", " ", "\"", "q", "u", "i", "c", "k", " ", "m", "a", "t", "h", "s", "\"", "."]
-2024-03-10 18:13:03,338 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "Yes, I would agree! These are simple arithmetic calculations, often referred to as \"quick maths\"."}
+2024-03-13 22:00:24,185 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': 'how do you say hello in Spanish'}
+2024-03-13 22:00:24,749 - chat_completion - DEBUG - Role: assistant
+2024-03-13 22:00:24,749 - chat_completion - DEBUG - Delta.content is empty string: ''
+2024-03-13 22:00:24,750 - chat_completion - DEBUG - Received content from OpenAI: 'You'
+2024-03-13 22:00:24,751 - chat_completion - DEBUG - Received content from OpenAI: ' say'
+2024-03-13 22:00:24,834 - chat_completion - DEBUG - Received content from OpenAI: ' "'
+2024-03-13 22:00:24,835 - chat_completion - DEBUG - Received content from OpenAI: 'Hola'
+2024-03-13 22:00:24,836 - chat_completion - DEBUG - Received content from OpenAI: '"'
+2024-03-13 22:00:24,845 - chat_completion - DEBUG - Received content from OpenAI: ' in'
+2024-03-13 22:00:24,846 - chat_completion - DEBUG - Received content from OpenAI: ' Spanish'
+2024-03-13 22:00:24,847 - chat_completion - DEBUG - Received content from OpenAI: '.'
+2024-03-13 22:00:24,848 - chat_completion - INFO - Received end of OpenAI response
+2024-03-13 22:00:24,848 - chat_completion - INFO - Response content: ["You", " say", " \"", "Hola", "\"", " in", " Spanish", "."]
+2024-03-13 22:00:24,848 - chat_completion - DEBUG - chars_to_send: ["Y", "o", "u", " ", "s", "a", "y", " ", "\"", "H", "o", "l", "a", "\"", " ", "i", "n", " ", "S", "p", "a", "n", "i", "s", "h", "."]
+2024-03-13 22:00:24,848 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "You say \"Hola\" in Spanish."}
+2024-03-13 22:00:38,841 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': 'could you say that again but just keep the word'}
+2024-03-13 22:00:39,324 - chat_completion - DEBUG - Role: assistant
+2024-03-13 22:00:39,324 - chat_completion - DEBUG - Delta.content is empty string: ''
+2024-03-13 22:00:39,325 - chat_completion - DEBUG - Received content from OpenAI: 'Hola'
+2024-03-13 22:00:39,326 - chat_completion - INFO - Received end of OpenAI response
+2024-03-13 22:00:39,326 - chat_completion - INFO - Response content: ["Hola"]
+2024-03-13 22:00:39,326 - chat_completion - DEBUG - chars_to_send: ["H", "o", "l", "a"]
+2024-03-13 22:00:39,326 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "Hola"}
+2024-03-13 22:01:01,496 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': "that's more like it now how do you say how do you say in Spanish"}
+2024-03-13 22:01:02,050 - chat_completion - DEBUG - Role: assistant
+2024-03-13 22:01:02,051 - chat_completion - DEBUG - Delta.content is empty string: ''
+2024-03-13 22:01:02,053 - chat_completion - DEBUG - Received content from OpenAI: '"C'
+2024-03-13 22:01:02,055 - chat_completion - DEBUG - Received content from OpenAI: 'ómo'
+2024-03-13 22:01:02,056 - chat_completion - DEBUG - Received content from OpenAI: ' se'
+2024-03-13 22:01:02,058 - chat_completion - DEBUG - Received content from OpenAI: ' dice'
+2024-03-13 22:01:02,059 - chat_completion - DEBUG - Received content from OpenAI: '"'
+2024-03-13 22:01:02,061 - chat_completion - INFO - Received end of OpenAI response
+2024-03-13 22:01:02,062 - chat_completion - INFO - Response content: ["\"C", "\u00f3mo", " se", " dice", "\""]
+2024-03-13 22:01:02,062 - chat_completion - DEBUG - chars_to_send: ["\"", "C", "\u00f3", "m", "o", " ", "s", "e", " ", "d", "i", "c", "e", "\""]
+2024-03-13 22:01:02,062 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "\"C\u00f3mo se dice\""}
+2024-03-13 22:01:14,987 - chat_completion - INFO - Sending query to OpenAI: {'role': 'user', 'content': 'okay como se dice got you understood'}
+2024-03-13 22:01:15,676 - chat_completion - DEBUG - Role: assistant
+2024-03-13 22:01:15,676 - chat_completion - DEBUG - Delta.content is empty string: ''
+2024-03-13 22:01:15,677 - chat_completion - DEBUG - Received content from OpenAI: 'Great'
+2024-03-13 22:01:15,678 - chat_completion - DEBUG - Received content from OpenAI: '!'
+2024-03-13 22:01:15,679 - chat_completion - DEBUG - Received content from OpenAI: ' Feel'
+2024-03-13 22:01:15,752 - chat_completion - DEBUG - Received content from OpenAI: ' free'
+2024-03-13 22:01:15,753 - chat_completion - DEBUG - Received content from OpenAI: ' to'
+2024-03-13 22:01:15,849 - chat_completion - DEBUG - Received content from OpenAI: ' ask'
+2024-03-13 22:01:15,850 - chat_completion - DEBUG - Received content from OpenAI: ' if'
+2024-03-13 22:01:15,851 - chat_completion - DEBUG - Received content from OpenAI: ' you'
+2024-03-13 22:01:15,853 - chat_completion - DEBUG - Received content from OpenAI: ' have'
+2024-03-13 22:01:15,853 - chat_completion - DEBUG - Received content from OpenAI: ' more'
+2024-03-13 22:01:15,854 - chat_completion - DEBUG - Received content from OpenAI: ' questions'
+2024-03-13 22:01:15,857 - chat_completion - DEBUG - Received content from OpenAI: '.'
+2024-03-13 22:01:15,857 - chat_completion - INFO - Received end of OpenAI response
+2024-03-13 22:01:15,857 - chat_completion - INFO - Response content: ["Great", "!", " Feel", " free", " to", " ask", " if", " you", " have", " more", " questions", "."]
+2024-03-13 22:01:15,858 - chat_completion - DEBUG - chars_to_send: ["G", "r", "e", "a", "t", "!", " ", "F", "e", "e", "l", " ", "f", "r", "e", "e", " ", "t", "o", " ", "a", "s", "k", " ", "i", "f", " ", "y", "o", "u", " ", "h", "a", "v", "e", " ", "m", "o", "r", "e", " ", "q", "u", "e", "s", "t", "i", "o", "n", "s", "."]
+2024-03-13 22:01:15,858 - chat_completion - DEBUG - ret_val: {"role": "assistant", "content": "Great! Feel free to ask if you have more questions."}
